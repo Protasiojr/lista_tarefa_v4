@@ -24,6 +24,7 @@ Nota: Os modelos estão definidos, mas os relacionamentos ainda não foram estab
 
 ## Convenções
 - **Idioma**: Português para nomes de modelos, comentários e potencialmente texto da UI
+- **Código Fonte**: Todo código fonte deve ser em pt-br
 - **Banco de Dados**: Prisma deve sempre ser direcionado ao banco MySQL
 - **Cliente Prisma**: Gerado em `app/generated/prisma` (caminho de saída personalizado)
 - **Estilização**: Tailwind CSS v4 com variáveis de tema personalizadas em `globals.css`
