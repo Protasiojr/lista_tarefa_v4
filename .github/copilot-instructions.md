@@ -35,6 +35,7 @@ Nota: Os modelos estão definidos, mas os relacionamentos ainda não foram estab
 - Rotas de API em `app/api/` para lógica de backend
 - Autenticação provavelmente tratada via JWT em cookies ou headers
 - Criptografia de senha com `bcryptjs` antes de armazenar no DB
+- Sempre que um novo usuário for criado no sistema, use as bibliotecas `bcryptjs` para criptografar a senha e `jose` para criar tokens JWT
 
 ## Dependências a Observar
 - `jose` para manipulação de JWT (assinatura/verificação)
