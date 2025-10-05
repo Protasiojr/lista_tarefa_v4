@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
       .setExpirationTime('24h')
       .sign(JWT_SECRET);
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       message: 'Login realizado com sucesso',
       token,
       user: {
@@ -43,6 +43,16 @@ export async function POST(request: NextRequest) {
         nome: user.nome,
       },
     });
+
+    // Definir cookie com o token
+    response.cookies.set('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 60 * 60 * 24, // 24 horas
+    });
+
+    return response;
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 });
