@@ -20,6 +20,7 @@ export default function UsuarioCRUD() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<Usuario | null>(null);
   const [formData, setFormData] = useState({ email: '', nome: '', senha: '' });
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     fetchUsuarios();
@@ -95,12 +96,23 @@ export default function UsuarioCRUD() {
     setIsDialogOpen(true);
   };
 
+  const filteredUsuarios = usuarios.filter(user =>
+    user.nome.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    user.email.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   if (loading) return <div>Carregando...</div>;
 
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Gerenciamento de Usuários</h1>
       <Button onClick={openAddDialog} className="mb-4">Adicionar Usuário</Button>
+      <Input
+        placeholder="Buscar usuários por nome ou email..."
+        value={searchQuery}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
+        className="mb-4"
+      />
       <Table>
         <TableHeader>
           <TableRow>
@@ -111,7 +123,7 @@ export default function UsuarioCRUD() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {usuarios.map((user) => (
+          {filteredUsuarios.map((user) => (
             <TableRow key={user.id}>
               <TableCell>{user.id}</TableCell>
               <TableCell>{user.email}</TableCell>

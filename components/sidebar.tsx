@@ -45,7 +45,7 @@ const data = {
   ],
 }
 
-export function AppSidebar() {
+export function AppSidebar({ user }: { user?: { id: number; nome: string; email: string } | null }) {
   const pathname = usePathname()
 
   return (
@@ -55,6 +55,12 @@ export function AppSidebar() {
           <CheckSquare className="h-6 w-6" />
           <span className="font-semibold">Lista de Tarefas</span>
         </div>
+        {user && (
+          <div className="px-4 py-2 border-t">
+            <p className="text-sm font-medium">{user.nome}</p>
+            <p className="text-xs text-muted-foreground">{user.email}</p>
+          </div>
+        )}
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
@@ -86,10 +92,10 @@ export function AppSidebar() {
   )
 }
 
-export function SidebarLayout({ children }: { children: React.ReactNode }) {
+export function SidebarLayout({ children, user }: { children: React.ReactNode; user?: { id: number; nome: string; email: string } | null }) {
   return (
     <SidebarProvider>
-      <AppSidebar />
+      <AppSidebar user={user} />
       <main className="flex-1">
         <SidebarTrigger />
         {children}
