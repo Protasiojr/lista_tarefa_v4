@@ -30,6 +30,7 @@ Nota: Os modelos estão definidos, mas os relacionamentos ainda não foram estab
 - **Estilização**: Tailwind CSS v4 com variáveis de tema personalizadas em `globals.css`
 - **Aliases de Caminho**: `@/*` mapeia para a raiz do projeto em `tsconfig.json`
 - **URL do Banco de Dados**: Variável de ambiente `DATABASE_URL` para conexão MySQL
+- **Componentes UI**: Todo componente UI deve ser criado usando a biblioteca local localizada em `components/`
 
 ## Padrões
 - Use componentes do servidor para busca de dados sempre que possível
