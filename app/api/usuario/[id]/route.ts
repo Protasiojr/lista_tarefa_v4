@@ -12,16 +12,17 @@ interface UpdateUserData {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = parseInt(params.id);
-    if (isNaN(id)) {
+    const { id } = await params;
+    const idNum = parseInt(id);
+    if (isNaN(idNum)) {
       return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
     }
 
     const user = await prisma.usuario.findUnique({
-      where: { id },
+      where: { id: idNum },
       select: {
         id: true,
         email: true,
@@ -43,11 +44,12 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = parseInt(params.id);
-    if (isNaN(id)) {
+    const { id } = await params;
+    const idNum = parseInt(id);
+    if (isNaN(idNum)) {
       return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
     }
 
@@ -63,7 +65,7 @@ export async function PUT(
     }
 
     const user = await prisma.usuario.update({
-      where: { id },
+      where: { id: idNum },
       data: updateData,
       select: {
         id: true,
@@ -87,16 +89,17 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = parseInt(params.id);
-    if (isNaN(id)) {
+    const { id } = await params;
+    const idNum = parseInt(id);
+    if (isNaN(idNum)) {
       return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
     }
 
     await prisma.usuario.delete({
-      where: { id },
+      where: { id: idNum },
     });
 
     return NextResponse.json({ message: 'Usuário deletado com sucesso' });
