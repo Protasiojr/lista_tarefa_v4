@@ -3,6 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
+import { useTheme } from "next-themes"
 import {
   Sidebar,
   SidebarContent,
@@ -18,7 +19,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { Button } from "@/components/ui/button"
-import { Home, CheckSquare, List, User } from "lucide-react"
+import { Home, CheckSquare, List, User, Moon, Sun } from "lucide-react"
 
 const data = {
   navMain: [
@@ -48,6 +49,11 @@ const data = {
 export function AppSidebar({ user }: { user?: { id: number; nome: string; email: string } | null }) {
   const pathname = usePathname()
   const router = useRouter()
+  const { theme, setTheme } = useTheme()
+
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark")
+  }
 
   const handleLogout = () => {
     document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
@@ -88,7 +94,11 @@ export function AppSidebar({ user }: { user?: { id: number; nome: string; email:
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <div className="p-4">
+        <div className="p-4 space-y-2">
+          <Button variant="outline" className="w-full" onClick={toggleTheme}>
+            {theme === "dark" ? <Sun className="h-4 w-4 mr-2" /> : <Moon className="h-4 w-4 mr-2" />}
+            {theme === "dark" ? "Modo Claro" : "Modo Escuro"}
+          </Button>
           <Button variant="outline" className="w-full" onClick={handleLogout}>
             Logout
           </Button>
