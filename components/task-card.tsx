@@ -21,14 +21,36 @@ interface Tarefa {
 interface TaskCardProps {
   tarefa: Tarefa;
   onItemAdded: () => void;
+  onTaskCompleted: () => void;
 }
 
-export function TaskCard({ tarefa, onItemAdded }: TaskCardProps) {
+export function TaskCard({ tarefa, onItemAdded, onTaskCompleted }: TaskCardProps) {
   const [showAddForm, setShowAddForm] = useState(false);
 
   const handleItemAdded = () => {
     setShowAddForm(false);
     onItemAdded();
+  };
+
+  const handleCompleteTask = async () => {
+    try {
+      const response = await fetch(`/api/tarefa/${tarefa.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ status: true }),
+      });
+
+      if (response.ok) {
+        onTaskCompleted();
+      } else {
+        console.error('Erro ao concluir tarefa');
+      }
+    } catch (error) {
+      console.error('Erro ao concluir tarefa:', error);
+    }
   };
 
   return (
@@ -49,6 +71,14 @@ export function TaskCard({ tarefa, onItemAdded }: TaskCardProps) {
       >
         {showAddForm ? "Cancelar" : "Adicionar Item"}
       </button>
+      {!tarefa.status && (
+        <button
+          onClick={handleCompleteTask}
+          className="mt-2 ml-2 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+        >
+          Concluir Tarefa
+        </button>
+      )}
       {showAddForm && (
         <div className="mt-4">
           <AddItemForm tarefaId={tarefa.id} onItemAdded={handleItemAdded} />

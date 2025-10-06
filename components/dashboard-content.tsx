@@ -54,6 +54,28 @@ export function DashboardContent({ initialTarefas, user }: DashboardContentProps
     }
   };
 
+  const handleTaskCompleted = async () => {
+    // Recarregar tarefas após concluir tarefa
+    try {
+      const response = await fetch("/api/dashboard", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setTarefas(data.tarefas);
+      }
+    } catch (error) {
+      console.error("Erro ao recarregar tarefas:", error);
+      // Fallback: recarregar página
+      window.location.reload();
+    }
+  };
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Bem-vindo, {user.nome}!</h1>
@@ -67,6 +89,7 @@ export function DashboardContent({ initialTarefas, user }: DashboardContentProps
               key={tarefa.id}
               tarefa={tarefa}
               onItemAdded={handleItemAdded}
+              onTaskCompleted={handleTaskCompleted}
             />
           ))
         )}
