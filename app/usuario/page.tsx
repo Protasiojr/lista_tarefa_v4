@@ -47,7 +47,7 @@ export default function UsuarioCRUD() {
       const url = editingUser ? `/api/usuario/${editingUser.id}` : '/api/usuario';
       const method = editingUser ? 'PUT' : 'POST';
       const body = editingUser
-        ? { email: formData.email, nome: formData.nome }
+        ? { email: formData.email, nome: formData.nome, senha: formData.senha || undefined }
         : { email: formData.email, nome: formData.nome, senha: formData.senha };
 
       const response = await fetch(url, {
@@ -189,6 +189,18 @@ export default function UsuarioCRUD() {
                     value={formData.senha}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, senha: e.target.value })}
                     required
+                  />
+                </div>
+              )}
+              {editingUser && (
+                <div>
+                  <Label htmlFor="senha">Nova Senha (opcional)</Label>
+                  <Input
+                    id="senha"
+                    type="password"
+                    value={formData.senha}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, senha: e.target.value })}
+                    placeholder="Deixe em branco para manter a senha atual"
                   />
                 </div>
               )}
