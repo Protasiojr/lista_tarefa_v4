@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import {
   Sidebar,
   SidebarContent,
@@ -47,6 +47,12 @@ const data = {
 
 export function AppSidebar({ user }: { user?: { id: number; nome: string; email: string } | null }) {
   const pathname = usePathname()
+  const router = useRouter()
+
+  const handleLogout = () => {
+    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+    router.push('/login')
+  }
 
   return (
     <Sidebar>
@@ -83,7 +89,7 @@ export function AppSidebar({ user }: { user?: { id: number; nome: string; email:
       </SidebarContent>
       <SidebarFooter>
         <div className="p-4">
-          <Button variant="outline" className="w-full">
+          <Button variant="outline" className="w-full" onClick={handleLogout}>
             Logout
           </Button>
         </div>
