@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 import { jwtVerify } from 'jose';
 import { prisma } from '@/lib/prisma';
 import { SidebarLayout } from '@/components/sidebar';
+import { DashboardContent } from '@/components/dashboard-content';
 
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET || 'your-secret-key');
 
@@ -45,30 +46,7 @@ export default async function DashboardPage() {
 
   return (
     <SidebarLayout user={user}>
-      <div className="container mx-auto p-4">
-        <h1 className="text-2xl font-bold mb-4">Bem-vindo, {user.nome}!</h1>
-        <h2 className="text-xl mb-4">Suas Tarefas</h2>
-        <div className="space-y-4">
-          {tarefas.length === 0 ? (
-          <p>Você ainda não tem tarefas.</p>
-        ) : (
-          tarefas.map((tarefa) => (
-            <div key={tarefa.id} className="border p-4 rounded">
-              <h3 className="font-semibold">{tarefa.titulo}</h3>
-              <p>{tarefa.descricao}</p>
-              <p>Status: {tarefa.status ? 'Concluída' : 'Pendente'}</p>
-              <p>Data: {tarefa.data.toLocaleDateString('pt-BR')}</p>
-              <h4>Itens:</h4>
-              <ul>
-                {tarefa.itens.map((item) => (
-                  <li key={item.id}>{item.titulo}: {item.descricao}</li>
-                ))}
-              </ul>
-            </div>
-          ))
-        )}
-      </div>
-    </div>
+      <DashboardContent initialTarefas={tarefas} user={user} />
     </SidebarLayout>
   );
 }
