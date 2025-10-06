@@ -37,7 +37,9 @@ export function CreateItemForm() {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await fetch("/api/tarefa");
+        const response = await fetch("/api/tarefa", {
+          credentials: "include",
+        });
         if (response.ok) {
           const data = await response.json();
           setTasks(data);
@@ -60,6 +62,7 @@ export function CreateItemForm() {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify({
           titulo: data.titulo,
           descricao: data.descricao,

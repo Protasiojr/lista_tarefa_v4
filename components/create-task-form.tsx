@@ -60,6 +60,7 @@ export function CreateTaskForm() {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify({
           titulo: data.titulo,
           descricao: data.descricao,
@@ -83,6 +84,7 @@ export function CreateTaskForm() {
             headers: {
               "Content-Type": "application/json",
             },
+            credentials: "include",
             body: JSON.stringify({
               titulo: item.titulo,
               descricao: item.descricao,

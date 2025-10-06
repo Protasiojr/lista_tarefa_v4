@@ -40,6 +40,7 @@ export function DashboardContent({ initialTarefas, user }: DashboardContentProps
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
       });
 
       if (response.ok) {

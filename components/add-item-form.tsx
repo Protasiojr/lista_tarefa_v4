@@ -39,6 +39,7 @@ export function AddItemForm({ tarefaId, onItemAdded }: AddItemFormProps) {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify({
           titulo: data.titulo,
           descricao: data.descricao,
