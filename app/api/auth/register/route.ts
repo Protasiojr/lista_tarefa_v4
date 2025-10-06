@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { SignJWT } from 'jose';
-import { PrismaClient } from '../../../generated/prisma';
+import { prisma } from '../../../../lib/prisma';
 
-const prisma = new PrismaClient();
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key'; // Defina uma chave secreta no .env
+const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET || 'your-secret-key'); // Defina uma chave secreta no .env
 
 export async function POST(request: NextRequest) {
   try {
@@ -30,7 +29,7 @@ export async function POST(request: NextRequest) {
     const token = await new SignJWT({ id: user.id, email: user.email })
       .setProtectedHeader({ alg: 'HS256' })
       .setExpirationTime('24h')
-      .sign(new TextEncoder().encode(JWT_SECRET));
+      .sign(JWT_SECRET);
 
     return NextResponse.json({ message: 'Usuário criado com sucesso', token }, { status: 201 });
   } catch (error: unknown) {

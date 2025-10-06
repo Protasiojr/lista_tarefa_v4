@@ -24,7 +24,7 @@ export function LoginForm({
   ...props
 }: React.ComponentProps<"div">) {
   const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [senha, setSenha] = useState("")
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const router = useRouter()
@@ -40,7 +40,7 @@ export function LoginForm({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, senha: password }),
+        body: JSON.stringify({ email, senha }),
       })
 
       const data = await response.json()
@@ -94,8 +94,8 @@ export function LoginForm({
                   id="password"
                   type="password"
                   required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={senha}
+                  onChange={(e) => setSenha(e.target.value)}
                 />
               </Field>
               {error && <p className="text-red-500">{error}</p>}
